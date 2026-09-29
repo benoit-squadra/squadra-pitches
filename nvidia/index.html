@@ -152,6 +152,23 @@
   .fact{border-top:1px solid rgba(0,102,255,0.2);padding-top:16px;}
   .fact-num{font-weight:200;font-size:32px;letter-spacing:-0.02em;color:var(--electric);line-height:1.1;}
   .fact-label{margin-top:8px;font-size:13.5px;color:var(--ink-80);}
+
+  /* --- contact success state (sq-form v2) --- */
+  .contact{position:relative;scroll-margin-top:80px;}
+  .sq-success{position:relative;max-width:520px;padding:8px 0 4px;animation:sqFadeUp .5s ease both;}
+  .sq-check{width:56px;height:56px;border-radius:50%;background:var(--electric);display:flex;align-items:center;justify-content:center;margin-bottom:22px;animation:sqPop .55s cubic-bezier(.2,1.4,.4,1) both;}
+  .sq-check svg{width:26px;height:26px;}
+  .sq-check path{stroke:var(--lime);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:30;stroke-dashoffset:30;animation:sqDraw .45s .3s ease forwards;}
+  .sq-success h3{font-weight:200;font-size:28px;letter-spacing:-0.02em;margin-bottom:10px;}
+  .sq-success p{font-size:15.5px;color:var(--ink);opacity:.8;}
+  .sq-confetti{position:absolute;left:28px;top:28px;width:0;height:0;pointer-events:none;z-index:2;}
+  .sq-confetti i{position:absolute;left:0;top:0;width:8px;height:12px;border-radius:2px;opacity:0;animation:sqBurst 1.4s cubic-bezier(.15,.7,.3,1) forwards;}
+  .sq-form-error{margin-top:14px;font-size:13.5px;color:#B3261E;}
+  @keyframes sqFadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+  @keyframes sqPop{0%{transform:scale(.3);opacity:0;}100%{transform:scale(1);opacity:1;}}
+  @keyframes sqDraw{to{stroke-dashoffset:0;}}
+  @keyframes sqBurst{0%{opacity:1;transform:translate(0,0) rotate(0);}100%{opacity:0;transform:translate(var(--x),var(--y)) rotate(var(--r));}}
+  @media (prefers-reduced-motion: reduce){.sq-success,.sq-check,.sq-check path{animation:none;stroke-dashoffset:0;}.sq-confetti{display:none;}}
 </style>
 </head>
 <body>
@@ -344,14 +361,14 @@
   </div>
 </section>
 
-<section class="contact">
+<section class="contact" id="contact">
   <div class="wrap">
     <div class="contact-head reveal">
       <span class="mono">Get in touch</span>
       <h2>Book a free discovery call</h2>
       <p style="margin-top:16px;font-size:15px;color:var(--ink);opacity:0.75;max-width:520px;">If coaching could help you or someone on your leadership team, book 60 minutes to talk it through. No pitch &mdash; just a conversation about what's actually going on and whether Squadra is a fit.</p>
     </div>
-    <form id="contactForm" class="reveal" name="nvidia-coaching-contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/nvidia/?sent=1">
+    <form id="contactForm" class="reveal" name="nvidia-coaching-contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/nvidia/?sent=1#contact" data-sq-form="v2">
       <input type="hidden" name="form-name" value="nvidia-coaching-contact" />
       <p style="display:none">
         <label>Leave this field blank: <input name="bot-field" /></label>
@@ -398,16 +415,6 @@
 </footer>
 
 <script>
-  // Native Netlify form submission (no AJAX interception — most reliable path).
-  // On return from a successful POST, Netlify redirects back here with ?sent=1.
-  (function(){
-    if (new URLSearchParams(window.location.search).get('sent') === '1') {
-      var form = document.getElementById('contactForm');
-      if (form) {
-        form.innerHTML = '<p style="font-size:16px;color:var(--ink);max-width:480px;">Thanks, that\'s been sent through. We\'ll get back to you within 24 hours.</p>';
-      }
-    }
-  })();
 
   function copyPageLink(){
     var btn = document.getElementById('copyLinkBtn');
@@ -471,6 +478,80 @@
     }, {threshold: 0.15, rootMargin: '0px 0px -60px 0px'});
 
     document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  })();
+</script>
+
+<script>
+  // Contact form (sq-form v2): submit in the background so the visitor stays on this
+  // section, then show a celebration state. If the background submit fails, fall back
+  // to a native POST that returns to #contact with ?sent=1.
+  (function(){
+    var form = document.getElementById('contactForm');
+    if (!form) return;
+    var REPLY = '24 hours';
+
+    function celebrate(){
+      var box = document.createElement('div');
+      box.className = 'sq-success';
+      box.setAttribute('role','status');
+      box.setAttribute('aria-live','polite');
+      box.innerHTML = '<div class="sq-check"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>' +
+        '<h3>Request sent. Thank you.</h3>' +
+        '<p>We\'ll be in touch within ' + REPLY + ' to find a time that works.</p>';
+      form.replaceWith(box);
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reduce) {
+        var burst = document.createElement('div');
+        burst.className = 'sq-confetti';
+        var colors = ['#0066FF','#E8FF90','#1A1A2E','#0066FF','#E8FF90'];
+        for (var i = 0; i < 44; i++) {
+          var p = document.createElement('i');
+          var angle = Math.random() * Math.PI * 2;
+          var dist = 90 + Math.random() * 180;
+          p.style.setProperty('--x', Math.cos(angle) * dist + 'px');
+          p.style.setProperty('--y', (Math.sin(angle) * dist - 60) + 'px');
+          p.style.setProperty('--r', (Math.random() * 720 - 360) + 'deg');
+          p.style.background = colors[i % colors.length];
+          p.style.animationDelay = (Math.random() * 0.12) + 's';
+          if (i % 3 === 0) { p.style.width = '6px'; p.style.height = '6px'; p.style.borderRadius = '50%'; }
+          burst.appendChild(p);
+        }
+        box.appendChild(burst);
+        setTimeout(function(){ burst.remove(); }, 1800);
+      }
+      var section = box.closest('section');
+      if (section) {
+        var r = section.getBoundingClientRect();
+        if (r.top < 0 || r.top > window.innerHeight * 0.6) section.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'start'});
+      }
+    }
+
+    // Returning from the native-POST fallback
+    if (new URLSearchParams(window.location.search).get('sent') === '1') {
+      celebrate();
+      if (history.replaceState) history.replaceState(null, '', window.location.pathname + '#contact');
+      return;
+    }
+
+    form.addEventListener('submit', function(e){
+      if (form.dataset.native === '1') return; // fallback path: let the browser POST
+      e.preventDefault();
+      var btn = form.querySelector('button[type="submit"]');
+      var label = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
+      fetch(window.location.pathname, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: new URLSearchParams(new FormData(form)).toString()
+      }).then(function(res){
+        if (!res.ok) throw new Error('status ' + res.status);
+        celebrate();
+      }).catch(function(){
+        if (btn) { btn.disabled = false; btn.textContent = label; }
+        form.dataset.native = '1';
+        HTMLFormElement.prototype.submit.call(form);
+      });
+    });
   })();
 </script>
 </body>

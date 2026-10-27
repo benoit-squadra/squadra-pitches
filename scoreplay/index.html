@@ -374,7 +374,7 @@ footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:2
       <h2>Select up to 2 coaches for a discovery call, accept the terms, and submit.</h2>
       <p>Squadra will make the introductions within 48 hours.</p>
     </div>
-    <form class="response-form" name="client-match-response" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="response-form">
+    <form class="response-form" name="client-match-response" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="response-form" action="/scoreplay/?sent=1#response">
       <input type="hidden" name="form-name" value="client-match-response">
       <input type="hidden" name="mandate-slug" value="scoreplay-charlotte-lucas">
       <input type="hidden" name="client-name" value="Charlotte Lucas">
@@ -492,27 +492,19 @@ footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:2
       errorMsg.classList.add('active');
       return;
     }
-    // Netlify will handle the actual submission; show success panel
-    // after form is submitted. Netlify redirects by default, but if not:
-    // display success inline after successful POST
-    e.preventDefault();
-    const formData = new FormData(form);
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(formData).toString()
-    }).then(() => {
-      form.style.display = 'none';
-      doneName.textContent = responderName.value || 'Charlotte';
-      doneCoaches.textContent = selected.join(' · ');
-      donePanel.classList.add('active');
-      donePanel.scrollIntoView({behavior:'smooth', block:'center'});
-    }).catch(() => {
-      errorMsg.textContent = 'Something went wrong. Please email benoit@squadra.soy directly.';
-      errorMsg.classList.add('active');
-    });
+    // Native POST (reliable Netlify capture on this site). Keep names for the thank-you panel.
+    hidden.value = selected.join('; ');
+    try{ sessionStorage.setItem('sq-done', JSON.stringify({n: responderName.value || 'Charlotte', c: selected.join(' · ')})); }catch(err){}
   });
   refreshState();
+  if(/[?&]sent=1/.test(location.search)){
+    let d={n:'Charlotte',c:''};
+    try{ d=JSON.parse(sessionStorage.getItem('sq-done'))||d; }catch(err){}
+    form.style.display='none';
+    doneName.textContent=d.n; doneCoaches.textContent=d.c;
+    if(!d.c){ const w=doneCoaches.parentElement; if(w) w.style.display='none'; }
+    donePanel.classList.add('active');
+  }
 })();
 </script>
 </body>

@@ -94,10 +94,16 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;}
 .coach-section-label{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-80);font-weight:500;margin-bottom:6px;margin-top:14px;}
 .coach-why{font-size:14px;color:var(--ink);line-height:1.6;border-left:2px solid var(--electric);padding:2px 0 2px 12px;}
 .coach-card.selected .coach-why{border-left-color:var(--ink);}
-.coach-langs{display:flex;flex-wrap:wrap;gap:8px;}
-.lang-pill{display:inline-flex;align-items:stretch;border:1px solid rgba(26,26,46,.25);border-radius:4px;overflow:hidden;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;}
-.lang-name{background:var(--ink);color:var(--lime);padding:6px 10px;text-transform:uppercase;}
-.lang-level{color:var(--ink);padding:6px 10px;}
+.coach-langs{display:grid;grid-template-columns:max-content max-content 1fr;column-gap:16px;row-gap:8px;align-items:center;margin-top:2px;}
+.lang-row{display:contents;}
+.lang-name{font-size:14px;color:var(--ink);line-height:1.4;}
+.lang-meter{display:inline-flex;gap:3px;}
+.lang-meter i{display:block;width:16px;height:6px;border-radius:1px;background:rgba(26,26,46,.12);}
+.lang-meter i.on{background:var(--electric);}
+.lang-level{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(26,26,46,.8);}
+.coach-card.selected .lang-meter i{background:rgba(26,26,46,.15);}
+.coach-card.selected .lang-meter i.on{background:var(--ink);}
+@media(max-width:640px){.coach-card.selected .coach-name-block{padding-right:96px;}}
 .coach-bio{font-size:14px;color:var(--ink);opacity:.9;line-height:1.6;}
 .coach-superpowers{list-style:none;padding-left:0;margin-top:2px;}
 .coach-superpowers li{font-size:13.5px;color:var(--ink);opacity:.9;line-height:1.55;padding-left:14px;position:relative;margin-bottom:4px;}
@@ -299,7 +305,7 @@ nav{position:relative;overflow:hidden;}
           <a href="https://www.linkedin.com/in/loraine-habib-a1682616/" target="_blank" rel="noopener" class="coach-linkedin">LinkedIn profile →</a>
         </div>
       </div>
-      <div class="coach-section-label">Coaching languages</div><div class="coach-langs"><span class="lang-pill"><span class="lang-name">French</span><span class="lang-level">Native</span></span><span class="lang-pill"><span class="lang-name">English</span><span class="lang-level">Fluent</span></span></div>
+      <div class="coach-section-label">Coaching languages</div><div class="coach-langs"><div class="lang-row" role="img" aria-label="French: Native, 4 of 4"><span class="lang-name">French</span><span class="lang-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="lang-level" aria-hidden="true">Native</span></div><div class="lang-row" role="img" aria-label="English: Fluent, 3 of 4"><span class="lang-name">English</span><span class="lang-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><span class="lang-level" aria-hidden="true">Fluent</span></div></div>
       <div class="coach-section-label">Why for WeTransact</div><div class="coach-why">Loraine lived the founder-to-leader shift from the inside: eight years at BlaBlaCar through its hypergrowth, the last four as Chief of Staff to the CEO and a member of the executive committee. Her specialty is co-founder dynamics, often where the shift gets stuck, and she is comfortable working from a Hogan debrief.</div>
       <div class="coach-section-label">Bio</div>
       <div class="coach-bio">Leadership coach with a background in relational psychology and over 10 years in tech. Five years and 700+ hours of coaching founders and executives.</div>
@@ -321,7 +327,7 @@ nav{position:relative;overflow:hidden;}
           <a href="https://www.linkedin.com/in/cattotty/" target="_blank" rel="noopener" class="coach-linkedin">LinkedIn profile →</a>
         </div>
       </div>
-      <div class="coach-section-label">Coaching languages</div><div class="coach-langs"><span class="lang-pill"><span class="lang-name">English</span><span class="lang-level">Native</span></span><span class="lang-pill"><span class="lang-name">French</span><span class="lang-level">Good working level</span></span></div>
+      <div class="coach-section-label">Coaching languages</div><div class="coach-langs"><div class="lang-row" role="img" aria-label="English: Native, 4 of 4"><span class="lang-name">English</span><span class="lang-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="lang-level" aria-hidden="true">Native</span></div><div class="lang-row" role="img" aria-label="French: Professional, 2 of 4"><span class="lang-name">French</span><span class="lang-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span><span class="lang-level" aria-hidden="true">Professional</span></div></div>
       <div class="coach-section-label">Why for WeTransact</div><div class="coach-why">Cat is an accredited Founder Coach who has supported hundreds of founders, from Seed to Series D and PE, in expanding their leadership toolbox: trust, delegation, letting go, clear roles, and systems that scale without them. Her deep niche is co-founder dynamics, keeping founders aligned as the pressure grows.</div>
       <div class="coach-section-label">Bio</div>
       <div class="coach-bio">Franco-British coach based in London. Before coaching she worked directly with scaling CEOs as a strategy consultant, and inside startups and scale-ups.</div>
@@ -343,7 +349,7 @@ nav{position:relative;overflow:hidden;}
           <a href="https://www.linkedin.com/in/pierre-verstraeten-4a25741/" target="_blank" rel="noopener" class="coach-linkedin">LinkedIn profile →</a>
         </div>
       </div>
-      <div class="coach-section-label">Coaching languages</div><div class="coach-langs"><span class="lang-pill"><span class="lang-name">French</span><span class="lang-level">Native</span></span><span class="lang-pill"><span class="lang-name">English</span><span class="lang-level">Fluent</span></span><span class="lang-pill"><span class="lang-name">Spanish</span><span class="lang-level">Professional</span></span></div>
+      <div class="coach-section-label">Coaching languages</div><div class="coach-langs"><div class="lang-row" role="img" aria-label="French: Native, 4 of 4"><span class="lang-name">French</span><span class="lang-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="lang-level" aria-hidden="true">Native</span></div><div class="lang-row" role="img" aria-label="English: Fluent, 3 of 4"><span class="lang-name">English</span><span class="lang-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><span class="lang-level" aria-hidden="true">Fluent</span></div><div class="lang-row" role="img" aria-label="Spanish: Professional, 2 of 4"><span class="lang-name">Spanish</span><span class="lang-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i></span><span class="lang-level" aria-hidden="true">Professional</span></div></div>
       <div class="coach-section-label">Why for WeTransact</div><div class="coach-why">Moving from founder-led to leadership-team-led challenges relationships and territories, so Pierre takes a systemic approach to the founder-to-leader shift. He works with the Leadership Circle 360 and is happy to discuss how it compares with Hogan for your assessments.</div>
       <div class="coach-section-label">Bio</div>
       <div class="coach-bio">Former CHRO at Spendesk and VP Talent at TravelPerk, after 10 years in Revenue Operations. Today he coaches CEOs, C-suite executives and leadership teams through People-Growth.</div>
@@ -365,7 +371,7 @@ nav{position:relative;overflow:hidden;}
           <a href="https://www.linkedin.com/in/chloe-allen8653/" target="_blank" rel="noopener" class="coach-linkedin">LinkedIn profile →</a>
         </div>
       </div>
-      <div class="coach-section-label">Coaching languages</div><div class="coach-langs"><span class="lang-pill"><span class="lang-name">French</span><span class="lang-level">Native</span></span><span class="lang-pill"><span class="lang-name">English</span><span class="lang-level">Fluent</span></span></div>
+      <div class="coach-section-label">Coaching languages</div><div class="coach-langs"><div class="lang-row" role="img" aria-label="French: Native, 4 of 4"><span class="lang-name">French</span><span class="lang-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="lang-level" aria-hidden="true">Native</span></div><div class="lang-row" role="img" aria-label="English: Fluent, 3 of 4"><span class="lang-name">English</span><span class="lang-meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i></span><span class="lang-level" aria-hidden="true">Fluent</span></div></div>
       <div class="coach-section-label">Why for WeTransact</div><div class="coach-why">Chloe has worked alongside founders in scale-ups like Virtuo, Welcome to the Jungle and Pennylane at the point where growth outpaces how the company is run. She helps leaders take on a bigger role with confidence, and turn fast change into clear expectations for their teams.</div>
       <div class="coach-section-label">Bio</div>
       <div class="coach-bio">Coach, mentor and fractional CHRO, from HR business partner to CHRO. She works one to one with leaders carrying change, and is explicit about which hat is on: coaching or mentoring. ICF-certified.</div>
